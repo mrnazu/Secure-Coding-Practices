@@ -5,3 +5,4 @@ XSS is caused by inadequate validation and sanitization of user input in web. Wh
 
 Attackers inject malicious code, typically `JavaScript`, into web applications through user inputs like i said above, such as `form fields`, `URL parameters`, or even `HTTP headers`. When the application doesn't properly validate or sanitize this input, the malicious code gets stored and later executed by other users' browsers.
 
+Now navigate to: `Buggy_Node.js` script
