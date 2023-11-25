@@ -65,7 +65,7 @@ app.listen(port, () => {
 
 ### Buggy HTML form and a vulnerable Node.js server-side script
 
-`Buggy_HTML_Form.html`:
+### `Buggy_HTML_Form.html`:
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -82,8 +82,11 @@ app.listen(port, () => {
   </form>
 </body>
 </html>
+
 ```
-`Buggy_Node.js_Server_Script.js`:
+![Alt text](image-1.png)
+
+### `Buggy_Node.js_Server_Script.js`:
 
 ```javascript
 const express = require('express');
@@ -105,3 +108,6 @@ app.listen(port, () => {
 });
 
 ```
+
+![Alt text](image.png)
+![Alt text](image-2.png)
