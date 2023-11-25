@@ -5,4 +5,58 @@ XSS is caused by inadequate validation and sanitization of user input in web. Wh
 
 Attackers inject malicious code, typically `JavaScript`, into web applications through user inputs like i said above, such as `form fields`, `URL parameters`, or even `HTTP headers`. When the application doesn't properly validate or sanitize this input, the malicious code gets stored and later executed by other users' browsers.
 
-Now navigate to: `Buggy_Node.js` script
+### Now navigate to: `Buggy_Node.js`
+
+```javascript
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/submit', (req, res) => {
+  const userInput = req.body.userInput;
+  const htmlResponse = `<p>${userInput}</p>`;
+  res.send(htmlResponse);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+```
+- The code takes user input from req.body.userInput without proper validation or sanitization.
+- It directly injects the user input into an HTML response without encoding it, making it susceptible to XSS attacks.
+
+### Now navigate to: `Secured_Node.js`
+
+```javascript
+const express = require('express');
+const bodyParser = require('body-parser');
+const { sanitize } = require('sanitize-html');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/submit', (req, res) => {
+  const userInput = req.body.userInput;
+  const sanitizedInput = sanitize(userInput, { allowedTags: [], allowedAttributes: {} });
+  const htmlResponse = `<p>${sanitizedInput}</p>`;
+  res.send(htmlResponse);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+```
+
+- Input Validation:
+  - Use the `sanitize-html` library to sanitize the user input. In this example, we're allowing only plain text by specifying `allowedTags: []` and `allowedAttributes: {}`.
+- Output Encoding:
+  - By using the `sanitize` function, the user input is properly sanitized before being injected into the HTML response. This prevents any malicious script from being executed.
+- Sanitization Library:
+  - In a real-world scenario, you would likely use a more comprehensive sanitization library. `sanitize-html` is a simple example, but depending on your needs, you might choose a more sophisticated library.
