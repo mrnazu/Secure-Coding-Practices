@@ -84,6 +84,8 @@ app.listen(port, () => {
 </html>
 
 ```
+- The HTML form takes user input without proper validation or sanitation.
+
 ![Alt text](image-1.png)
 
 ### `Buggy_Node.js_Server_Script.js`:
@@ -108,6 +110,11 @@ app.listen(port, () => {
 });
 
 ```
+- The Node.js script directly injects the user input into an HTML response without encoding it, making it vulnerable to XSS attacks.
 
 ![Alt text](image.png)
+
 ![Alt text](image-2.png)
+
+
+
