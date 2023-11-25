@@ -60,3 +60,48 @@ app.listen(port, () => {
   - By using the `sanitize` function, the user input is properly sanitized before being injected into the HTML response. This prevents any malicious script from being executed.
 - Sanitization Library:
   - In a real-world scenario, you would likely use a more comprehensive sanitization library. `sanitize-html` is a simple example, but depending on your needs, you might choose a more sophisticated library.
+
+---
+
+### Buggy HTML form and a vulnerable Node.js server-side script
+
+`Buggy_HTML_Form.html`:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unsafe Form</title>
+</head>
+<body>
+  <form action="http://localhost:3000/submit" method="POST">
+    <label for="userInput">Enter your name:</label>
+    <input type="text" id="userInput" name="userInput">
+    <button type="submit">Submit</button>
+  </form>
+</body>
+</html>
+```
+`Buggy_Node.js_Server_Script.js`:
+
+```javascript
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/submit', (req, res) => {
+  const userInput = req.body.userInput;
+  const htmlResponse = `<p>Hello, ${userInput}!</p>`;
+  res.send(htmlResponse);
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+```
